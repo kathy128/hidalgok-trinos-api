@@ -12,7 +12,7 @@ app.use('/users', usersRouter);
 
 app.use((req, res, next) => {
   res.status(404);
-  res.json(new ErrorSerializer('Not found', null));
+  res.json(new ErrorSerializer('Not found', null).toJSON());
 });
 
 app.use((err, req, res, next) => {
@@ -22,7 +22,7 @@ app.use((err, req, res, next) => {
   } = err;
 
   res.status(statusCode);
-  res.json(new ErrorSerializer(message, null));
+  res.json(new ErrorSerializer(message, null).toJSON());
 });
 
 module.exports = app;

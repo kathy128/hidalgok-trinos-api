@@ -7,9 +7,16 @@
 const http = require('http');
 const app = require('../app');
 
+const database = require('../src/database');
+
 /**
- * Normalize a port into a number, string, or false.
- */
+  * Connect to database
+  */
+database.init();
+
+/**
+  * Normalize a port into a number, string, or false.
+  */
 
 function normalizePort(val) {
   const portParsed = parseInt(val, 10);
@@ -28,21 +35,21 @@ function normalizePort(val) {
 }
 
 /**
- * Get port from environment and store in Express.
- */
+  * Get port from environment and store in Express.
+  */
 
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
- */
+  * Create HTTP server.
+  */
 
 const server = http.createServer(app);
 
 /**
- * Event listener for HTTP server "error" event.
- */
+  * Event listener for HTTP server "error" event.
+  */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -69,8 +76,8 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
- */
+  * Event listener for HTTP server "listening" event.
+  */
 
 function onListening() {
   const addr = server.address();
@@ -81,8 +88,8 @@ function onListening() {
 }
 
 /**
- * Listen on provided port, on all network interfaces.
- */
+  * Listen on provided port, on all network interfaces.
+  */
 
 server.listen(port);
 server.on('error', onError);
