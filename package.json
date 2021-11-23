@@ -15,7 +15,7 @@
     "db:migration:generate": "cd ./src/database && sequelize migration:generate",
     "db:model:generate": "cd ./src/database && sequelize model:generate"
   },
-  "author": "sjdonado",
+  "author": "kathy128",
   "license": "GPL-3.0",
   "devDependencies": {
     "eslint": "^7.32.0",

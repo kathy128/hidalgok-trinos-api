@@ -22,6 +22,7 @@ const findUser = async (where) => {
 
 const getAllUsers = async (req, res, next) => {
   try {
+    console.log("hola");
     req.isRole(ROLES.admin);
 
     const users = await User.findAll({ ...req.pagination });
