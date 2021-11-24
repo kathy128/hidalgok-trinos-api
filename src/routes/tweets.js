@@ -9,6 +9,8 @@ const {
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { paginationMiddleware } = require('../middlewares/paginationMiddleware');
 
-router.post('/tweets', createTweet);
+router.post('/', createTweet);
+router.post('/:id', findTweet);
+
 
 module.exports = router;
