@@ -1,5 +1,5 @@
 const ApiError = require('../utils/ApiError');
-const { Tweets } = require('../database/models');
+const { Tweets, Comments } = require('../database/models');
 
 const getAllTweets = async (req, res, next) => {
   try {
@@ -60,9 +60,10 @@ const createTweet = async (req, res, next) => {
   const getTweetByUser = async (req, res, next) => {
     try {
       const { params } = req;
-  
-      const tweet = await findTweet({ user: String(params.username) });
-  
+      const { body } = req;
+      const tweet = await findTweet({ Tweet: Number(params.id)});
+      const userId = await findUser({id: Number(params.id)})
+      console.log(userId);
       res.json(new UserSerializer(tweet));
     } catch (err) {
       next(err);
@@ -82,12 +83,12 @@ const createTweet = async (req, res, next) => {
     const commentPayload = {
       Text: body.Text,
   }
-      if (Object.values(TweetPayload).some((val) => val === undefined)) {
-        throw new ApiError('Bad Request', 400);
+      if (Object.values(commentPayload).some((val) => val === undefined)) {
+        throw new ApiError('Payload must contain text', 400);
       }
     
-      const tweet = await Tweets.create(commentPayload);
-  
+      const tweet = await Comments.create(commentPayload);
+      user  = await Tweet.findUser({id: user.id});
       res.json(new UserSerializer(tweet));
     } catch (err) {
       next(err);
