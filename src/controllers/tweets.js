@@ -1,11 +1,15 @@
 const ApiError = require('../utils/ApiError');
-const { Tweets, Comments } = require('../database/models');
+const TweetSerializer = require('../serializers/TweetSerializer');
+const TweetsSerializer = require('../serializers/TweetsSerializer');
+const {findUser} = require('../controllers/users');
+const { Tweets, Comments , User } = require('../database/models');
+
 
 const getAllTweets = async (req, res, next) => {
   try {
     const tweet = await Tweets.findAll({ ...req.pagination });
-
-    res.json(new UsersSerializer(tweet, await req.getPaginationInfo(Tweets)));
+    const users = await User.findAll({...req.pagination})
+    res.json(new TweetsSerializer(tweet ,users, await req.getPaginationInfo(Tweets)));
   } catch (err) {
     next(err);
   }
@@ -37,22 +41,24 @@ const findTweet = async (where) => {
   }
 
   return tweet;
-};  
+}; 
+
+
 const createTweet = async (req, res, next) => {
     try {
       const { body } = req;
-
+      const user = await findUser({ id: Number(req.user.id) })
       const TweetPayload = {
-        Text: body.Text,
+        text: body.text,
+        user: req.user.id,
       };
-  
       if (Object.values(TweetPayload).some((val) => val === undefined)) {
         throw new ApiError('Bad Request', 400);
       }
     
       const tweet = await Tweets.create(TweetPayload);
   
-      res.json(new UserSerializer(tweet));
+      res.json(new TweetSerializer(tweet,null,user.toJSON()));
     } catch (err) {
       next(err);
     }
@@ -69,7 +75,7 @@ const createTweet = async (req, res, next) => {
       next(err);
     }
   };
-  const createComment = async (req, res, next) => {
+  /*const createComment = async (req, res, next) => {
     try {
       const { body } = req;
       const { params } = req;
@@ -93,12 +99,12 @@ const createTweet = async (req, res, next) => {
     } catch (err) {
       next(err);
     }
-  };
+  };*/
   module.exports = {
     createTweet,
     findTweet,
     deleteTweet,
-    createComment,
+    //createComment,
     getAllTweets,
     getTweetByUser,
   };

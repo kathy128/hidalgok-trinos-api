@@ -25,7 +25,7 @@ const {
         allowNull: false,
       },
       likeCounter: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     

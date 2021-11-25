@@ -6,7 +6,7 @@ const {
     createTweet,
     findTweet,
     deleteTweet,
-    createComment,
+    //createComment,
     getAllTweets,
     getTweetByUser,
 } = require('../controllers/tweets');
@@ -14,12 +14,12 @@ const {
 const { authMiddleware } = require('../middlewares/authMiddleware');
 const { paginationMiddleware } = require('../middlewares/paginationMiddleware');
 
-router.post('/', createTweet);
+router.post('/',authMiddleware, createTweet);
 router.get('/:id', findTweet);
 router.delete('/:id',deleteTweet);
-router.post('/:id',createComment);
+//router.post('/:id',createComment);
 router.get('/',paginationMiddleware, getAllTweets);
-route.get('/feed/:username',getTweetByUser);
+router.get('/feed/:username',getTweetByUser);
     
 
 
