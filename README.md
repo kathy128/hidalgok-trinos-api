@@ -1,3 +1,7 @@
+# Katherine Hidalgo Corredor - 200109532
+# Eduardo Ahumada Carriazo - 200102893
+# Ricardo José Barrios 200124504
+
 # [Template] Tinos API - Users CRUD
 
 Fork this project and modify the `./src/*` files in order to complete your assessment.
