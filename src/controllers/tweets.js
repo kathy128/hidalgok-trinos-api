@@ -3,6 +3,7 @@ const TweetSerializer = require('../serializers/TweetSerializer');
 const TweetsSerializer = require('../serializers/TweetsSerializer');
 const {findUser} = require('../controllers/users');
 const { Tweets, Comments , User } = require('../database/models');
+const { OPEN_READWRITE } = require('sqlite3');
 
 
 const getAllTweets = async (req, res, next) => {
@@ -20,20 +21,34 @@ const deleteTweet = async (req, res, next) => {
     const { params } = req;
 
     const tweetId = Number(params.id) ;
-
     const tweet = await findTweet({ id: tweetId });
-
     Object.assign(tweet, { active: false });
-
+    await tweet.save();
+    res.json({
+      "status": "success",
+      "data": null
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+const likeTweet = async (req, res, next) => {
+  try {
+    const { params } = req;
+    const tweetId = Number(params.id) ;
+    const tweet = await findTweet({ id: tweetId });
+    var count = tweet.likeCounter;
+    count = count+1;
+    Object.assign(tweet, { likeCounter: count });
     await tweet.save();
 
-    res.json(null);
+    res.json(tweet.dataValues);
   } catch (err) {
     next(err);
   }
 };
 const findTweet = async (where) => {
-  Object.assign(where, { active: true });
+ // Object.assign(where, { active: true });
 
   const tweet = await Tweets.findOne({ where });
   if (!tweet) {
@@ -63,19 +78,18 @@ const createTweet = async (req, res, next) => {
       next(err);
     }
   };
-  const getTweetByUser = async (req, res, next) => {
+  const getTweetById = async (req, res, next) => {
     try {
       const { params } = req;
-      const { body } = req;
-      const tweet = await findTweet({ Tweet: Number(params.id)});
+      const tweet = await findTweet({ id: params.id });
+
       const userId = await findUser({id: Number(params.id)})
-      console.log(userId);
-      res.json(new UserSerializer(tweet));
+      res.json(tweet.dataValues);
     } catch (err) {
       next(err);
     }
   };
-  /*const createComment = async (req, res, next) => {
+   const createComment = async (req, res, next) => {
     try {
       const { body } = req;
       const { params } = req;
@@ -88,23 +102,25 @@ const createTweet = async (req, res, next) => {
     }
     const commentPayload = {
       Text: body.Text,
+      tweet: req.dataValues,
   }
       if (Object.values(commentPayload).some((val) => val === undefined)) {
         throw new ApiError('Payload must contain text', 400);
       }
     
-      const tweet = await Comments.create(commentPayload);
+      const tweetp = await Comments.create(commentPayload);
       user  = await Tweet.findUser({id: user.id});
-      res.json(new UserSerializer(tweet));
+      res.json(new UserSerializer(tweetp));
     } catch (err) {
       next(err);
     }
-  };*/
+  };
   module.exports = {
     createTweet,
     findTweet,
     deleteTweet,
-    //createComment,
+    createComment,
     getAllTweets,
-    getTweetByUser,
+    getTweetById,
+    likeTweet,
   };

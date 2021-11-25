@@ -11,6 +11,7 @@ class TweetSerializer extends BaseSerializer {
         serializedModel.user=users;
     }
    delete serializedModel.user.password;
+   delete serializedModel.user.role;
     super('success', serializedModel);
   }
 }
