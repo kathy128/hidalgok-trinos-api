@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
- 
+
 const { SALT_ROUNDS } = require('../../config');
 const { ROLES } = require('../../config/constants');
- 
+
 const PASSWORD = bcrypt.hashSync('12345', SALT_ROUNDS);
- 
+
 const REGULAR_USER = (idx) => ({
   username: `user${idx}`,
   name: `User ${idx}`,
@@ -14,7 +14,7 @@ const REGULAR_USER = (idx) => ({
   createdAt: new Date(),
   updatedAt: new Date(),
 });
- 
+
 const DEMO_USERS = [
   {
     username: 'admin',
@@ -37,12 +37,12 @@ const DEMO_USERS = [
   },
   ...Array.from(Array(50).keys()).map((idx) => REGULAR_USER(idx)),
 ];
- 
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Users', DEMO_USERS);
   },
- 
+
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Users', null, {});
   },

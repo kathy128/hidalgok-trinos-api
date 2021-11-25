@@ -30,7 +30,7 @@ module.exports = {
       user: {
         allowNull: false,
         type: Sequelize.INTEGER,
-      }
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

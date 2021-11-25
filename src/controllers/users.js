@@ -1,6 +1,6 @@
 const ApiError = require('../utils/ApiError');
 
-const { User } = require('../database/models');
+const { User } = require('../database/models').default;
 const { generateAccessToken } = require('../services/jwt');
 
 const UserSerializer = require('../serializers/UserSerializer');
@@ -22,7 +22,6 @@ const findUser = async (where) => {
 
 const getAllUsers = async (req, res, next) => {
   try {
-    
     req.isRole(ROLES.admin);
 
     const users = await User.findAll({ ...req.pagination });

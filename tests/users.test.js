@@ -265,8 +265,6 @@ describe('Users routes', () => {
       .get(`${USERS_PATH}/all`)
       .set('Authorization', 'bearer 12345');
 
-    console.log(response.body);
-
     expect(response.statusCode).toBe(400);
     expect(response.body.status).toBe('jwt malformed');
   });

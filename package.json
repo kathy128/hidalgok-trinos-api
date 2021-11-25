@@ -4,6 +4,7 @@
   "description": "Twitter-like API",
   "private": true,
   "scripts": {
+    "lint-fix": "eslint . --ext .js --fix",
     "start": "node ./bin/www",
     "dev": "nodemon -L ./bin/www",
     "test": "jest",

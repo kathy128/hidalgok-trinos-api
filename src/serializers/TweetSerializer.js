@@ -4,14 +4,14 @@ class TweetSerializer extends BaseSerializer {
   constructor(model, comments, users) {
     const serializedModel = model ? model.toJSON() : null;
     delete serializedModel?.active;
-    
-    //const userbn = users.find((user)=>{user.id==serializedModel.user});
-    if(model){
-        serializedModel.comments=comments;
-        serializedModel.user=users;
+
+    // const userbn = users.find((user)=>{user.id==serializedModel.user});
+    if (model) {
+      serializedModel.comments = comments;
+      serializedModel.user = users;
     }
-   delete serializedModel.user.password;
-   delete serializedModel.user.role;
+    delete serializedModel.user.password;
+    delete serializedModel.user.role;
     super('success', serializedModel);
   }
 }

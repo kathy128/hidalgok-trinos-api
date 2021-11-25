@@ -11,7 +11,6 @@ const { ROLES } = require('../../config/constants');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -20,9 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 
     comparePassword(plainTextPassword) {
       return bcrypt.compare(plainTextPassword, this.password);
-    };
+    }
   }
-  
+
   User.init({
     username: {
       type: DataTypes.STRING,
